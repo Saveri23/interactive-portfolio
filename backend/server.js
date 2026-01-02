@@ -10,7 +10,10 @@ dotenv.config();
 const app = express();
 
 // -------- MIDDLEWARE --------
-app.use(cors()); // allow all for now (we'll restrict later)
+app.use(cors({
+  origin: "https://interactive-portfolio-e41yvt9qj-saveri23s-projects.vercel.app",
+  methods: ["GET", "POST"],
+}));
 app.use(express.json());
 
 // -------- TEST ROUTE --------
