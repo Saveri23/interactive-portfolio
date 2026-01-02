@@ -5,7 +5,12 @@ export default function VideoIntro() {
         <h2 className="text-3xl font-bold mb-6">Why Should You Hire Me?</h2>
 
         <div className="aspect-video rounded-lg overflow-hidden border dark:border-gray-700">
-          <iframe className="w-full h-full" allowFullScreen />
+          <iframe
+            className="w-full h-full"
+            src="https://drive.google.com/file/d/14I7W85Fwqh4HGtWPMtDkOv6WCfvyOE1Q/preview"
+            title="Introduction Video"
+            allowFullScreen
+          />
         </div>
 
         <p className="text-gray-600 dark:text-gray-400 mt-4">
