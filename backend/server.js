@@ -1,60 +1,68 @@
-import path from "path";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 
-// Import projects router
 import projectsRouter from "./routes/project.js";
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// -------- MIDDLEWARE --------
+app.use(cors()); // allow all for now (we'll restrict later)
 app.use(express.json());
 
-// ------------------- API ROUTES -------------------
-
-// Test API
+// -------- TEST ROUTE --------
 app.get("/api", (req, res) => {
-  res.send("Backend is running");
+  res.send("Backend is running 🚀");
 });
 
-// Projects API
+// -------- PROJECTS API --------
 app.use("/api/projects", projectsRouter);
 
-// Chatbot API
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// -------- OPENAI SETUP (SAFE) --------
+let openai = null;
 
+if (process.env.OPENAI_API_KEY) {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  console.log("✅ OpenAI configured");
+} else {
+  console.log("⚠️ OPENAI_API_KEY not set");
+}
+
+// -------- CHAT API --------
 app.post("/api/chat", async (req, res) => {
   try {
+    if (!openai) {
+      return res.json({ reply: "AI not configured yet" });
+    }
+
     const { msg } = req.body;
 
+    if (!msg) {
+      return res.status(400).json({ reply: "Message is required" });
+    }
+
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: "You are Saveri, a friendly full-stack developer." },
-        { role: "user", content: msg }
+        { role: "user", content: msg },
       ],
     });
 
     res.json({ reply: response.choices[0].message.content });
   } catch (error) {
-    console.error(error);
+    console.error("Chat error:", error.message);
     res.status(500).json({ reply: "AI error" });
   }
 });
 
-// ------------------- SERVE FRONTEND -------------------
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-});
-
-// ------------------- START SERVER -------------------
+// -------- START SERVER --------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Backend running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Backend running on port ${PORT}`);
+});
