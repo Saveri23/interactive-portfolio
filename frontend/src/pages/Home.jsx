@@ -13,8 +13,8 @@ export default function Home() {
       <About />
       <Projects />
       <Skills />
-      <VideoIntro />
-      <Chatbot/>
+    
+    
       <Footer/>
     </>
   );
