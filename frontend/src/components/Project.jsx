@@ -6,7 +6,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
+    axios.get("http://localhost:5000/api/projects")
       .then(res => setProjects(res.data))
       .catch(err => console.error("Failed to fetch projects:", err));
   }, []);
@@ -27,15 +27,17 @@ axios.get(`${import.meta.env.VITE_API_URL}/api/projects`)
               border border-gray-200 dark:border-gray-700 
               hover:border-blue-500 transition shadow hover:shadow-lg"
           >
-            <h3 className="text-2xl font-semibold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+            <h3 className="text-2xl font-semibold mb-2">
               {p.title} ({p.year})
             </h3>
 
-            <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
-              {Array.isArray(p.description) ? p.description.join(" ") : p.description}
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              {Array.isArray(p.description)
+                ? p.description.join(" ")
+                : p.description}
             </p>
 
-            <span className="text-blue-600 dark:text-blue-400 group-hover:underline">
+            <span className="text-blue-600 dark:text-blue-400">
               View Details →
             </span>
           </Link>

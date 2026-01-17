@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
         "Built a job portal for candidates and recruiters.",
         "Implemented secure authentication with JWT and role-based access.",
         "Responsive frontend with React and Tailwind CSS.",
-        "Backend using Spring Boot for handling job postings and applications.",
+        "Backend using DJANGO for handling job postings and applications.",
         "MySQL database for storing user profiles, jobs, and applications."
       ],
       uses: ["Job search", "Recruitment", "Career management"],

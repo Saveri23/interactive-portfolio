@@ -10,7 +10,7 @@ export default function Hero() {
       </h1>
 
       <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-        Full Stack Developer • AI Enthusiast
+        Full Stack Developer 
       </p>
 
       <button
